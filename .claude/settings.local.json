@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node:*)",
+      "Bash(npm create:*)",
+      "Bash(npm install:*)",
+      "Bash(mkdir:*)",
+      "Bash(npx vite:*)",
+      "Bash(timeout 8 bash:*)",
+      "Bash(curl:*)",
+      "mcp__chrome-devtools__navigate_page",
+      "mcp__chrome-devtools__list_pages",
+      "Bash(timeout 10 bash:*)",
+      "mcp__chrome-devtools__new_page",
+      "Bash(tasklist:*)",
+      "Bash(wmic process:*)",
+      "mcp__chrome-devtools__take_screenshot",
+      "mcp__chrome-devtools__list_console_messages",
+      "mcp__chrome-devtools__take_snapshot",
+      "mcp__chrome-devtools__evaluate_script",
+      "Bash(python3:*)",
+      "mcp__chrome-devtools__resize_page",
+      "Bash(npm run:*)",
+      "Bash(grep:*)",
+      "WebSearch",
+      "WebFetch(domain:unsplash.com)",
+      "Bash(bash:*)"
+    ]
+  }
+}
