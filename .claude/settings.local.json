@@ -29,7 +29,12 @@
       "WebFetch(domain:www.kalkifashion.com)",
       "WebFetch(domain:blog.kalkifashion.com)",
       "WebFetch(domain:www.pngjewellers.com)",
-      "Bash(sed:*)"
+      "Bash(sed:*)",
+      "mcp__chrome-devtools__click",
+      "mcp__chrome-devtools__emulate",
+      "mcp__chrome-devtools__list_network_requests",
+      "mcp__chrome-devtools__fill_form",
+      "mcp__chrome-devtools__fill"
     ]
   }
 }

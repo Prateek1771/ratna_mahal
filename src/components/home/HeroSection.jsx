@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function HeroSection() {
   return (
     <section className="relative w-full h-[50vh] md:h-[80vh] overflow-hidden">
@@ -22,9 +24,9 @@ export default function HeroSection() {
         <p className="text-sm md:text-base mt-5 max-w-md opacity-80 leading-relaxed">
           Exquisite gold, diamond & Kundan jewellery from India's finest jewellers
         </p>
-        <button className="mt-10 bg-white text-primary px-10 py-3.5 text-[11px] uppercase tracking-[0.2em] font-medium hover:bg-primary hover:text-white transition-all duration-300 border border-white">
+        <Link to="/new" className="mt-10 inline-block bg-white text-primary px-10 py-3.5 text-[11px] uppercase tracking-[0.2em] font-medium hover:bg-primary hover:text-white transition-all duration-300 border border-white">
           Shop the Collection
-        </button>
+        </Link>
       </div>
 
       <style>{`

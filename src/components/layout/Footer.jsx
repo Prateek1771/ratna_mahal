@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { footerLinks } from "../../data/navigation";
 import SocialIcons from "../ui/SocialIcons";
 
@@ -22,12 +23,12 @@ function AccordionSection({ title, links }) {
         <ul className="px-6 space-y-2.5">
           {links.map((link) => (
             <li key={link}>
-              <a
-                href={`/${link.toLowerCase().replace(/\s+/g, "-")}`}
+              <Link
+                to={`/${link.toLowerCase().replace(/&/g, "").replace(/\s+/g, "-")}`}
                 className="text-sm text-secondary hover:text-primary transition-colors duration-200"
               >
                 {link}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
@@ -52,12 +53,12 @@ export default function Footer() {
               <ul className="space-y-3">
                 {links.map((link) => (
                   <li key={link}>
-                    <a
-                      href={`/${link.toLowerCase().replace(/\s+/g, "-")}`}
+                    <Link
+                      to={`/${link.toLowerCase().replace(/&/g, "").replace(/\s+/g, "-")}`}
                       className="text-sm text-secondary hover:text-primary transition-colors duration-200"
                     >
                       {link}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>

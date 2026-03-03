@@ -1,4 +1,11 @@
-import { createContext, useContext, useReducer, useMemo } from "react";
+import { createContext, useContext, useReducer, useMemo, useEffect } from "react";
+
+function loadCart() {
+  try {
+    const data = localStorage.getItem("ratna_cart");
+    return data ? JSON.parse(data) : [];
+  } catch { return []; }
+}
 
 const CartContext = createContext(null);
 
@@ -45,7 +52,11 @@ function cartReducer(state, action) {
 }
 
 export function CartProvider({ children }) {
-  const [items, dispatch] = useReducer(cartReducer, []);
+  const [items, dispatch] = useReducer(cartReducer, null, loadCart);
+
+  useEffect(() => {
+    localStorage.setItem("ratna_cart", JSON.stringify(items));
+  }, [items]);
 
   const value = useMemo(() => {
     const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);

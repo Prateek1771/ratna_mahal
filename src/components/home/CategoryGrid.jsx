@@ -17,15 +17,17 @@ export default function CategoryGrid() {
     <section className="max-w-[1440px] mx-auto px-4 md:px-8 py-12 md:py-16">
       <SectionHeading title="Categories to Explore" />
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 md:gap-4">
+      <motion.div
+        className="grid grid-cols-2 sm:grid-cols-3 gap-3 md:gap-4"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.05 }}
+      >
         {categories.map((category, index) => (
           <motion.div
             key={category.id}
             variants={cardVariants}
             custom={index}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
           >
             <Link
               to={`/${category.slug}`}
@@ -49,7 +51,7 @@ export default function CategoryGrid() {
             </Link>
           </motion.div>
         ))}
-      </div>
+      </motion.div>
     </section>
   );
 }

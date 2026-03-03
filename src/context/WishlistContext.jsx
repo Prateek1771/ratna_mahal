@@ -1,4 +1,11 @@
-import { createContext, useContext, useReducer, useMemo, useCallback } from "react";
+import { createContext, useContext, useReducer, useMemo, useEffect } from "react";
+
+function loadWishlist() {
+  try {
+    const data = localStorage.getItem("ratna_wishlist");
+    return data ? JSON.parse(data) : [];
+  } catch { return []; }
+}
 
 const WishlistContext = createContext(null);
 
@@ -19,7 +26,11 @@ function wishlistReducer(state, action) {
 }
 
 export function WishlistProvider({ children }) {
-  const [items, dispatch] = useReducer(wishlistReducer, []);
+  const [items, dispatch] = useReducer(wishlistReducer, null, loadWishlist);
+
+  useEffect(() => {
+    localStorage.setItem("ratna_wishlist", JSON.stringify(items));
+  }, [items]);
 
   const value = useMemo(() => {
     const itemCount = items.length;

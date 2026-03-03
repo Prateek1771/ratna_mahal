@@ -3,7 +3,7 @@ export const commonNavEnd = ["WATCHES", "GIFTS", "SALE"];
 export const womensNav = [
   "NECKLACES", "RINGS", "EARRINGS", "BANGLES", "MANGALSUTRA", "BRIDAL"
 ];
-export const mensNav = ["MENS", "GROOM'S COLLECTION"];
+export const mensNav = ["MENS", "GROOMS COLLECTION"];
 
 // Full list for backwards compat (mobile menu, etc.)
 export const mainNav = [...commonNavStart, ...womensNav, ...mensNav, ...commonNavEnd];

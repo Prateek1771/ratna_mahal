@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, Navigate } from "react-router-dom";
+import { Navigate, Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 
 function formatPrice(amount) {
@@ -15,10 +15,13 @@ const STATES = [
   "Delhi", "Jammu & Kashmir", "Ladakh",
 ];
 
-const inputClass = "w-full border border-border px-4 py-3 text-sm outline-none focus:border-primary transition-colors";
+const inputClass = "w-full border px-4 py-3 text-sm outline-none focus:border-primary transition-colors";
+function InputError({ message }) {
+  if (!message) return null;
+  return <p className="text-red-600 text-xs mt-1">{message}</p>;
+}
 
 export default function CheckoutPage() {
-  const navigate = useNavigate();
   const { items, subtotal, shippingFee, total, clearCart } = useCart();
 
   const [form, setForm] = useState({
@@ -31,22 +34,55 @@ export default function CheckoutPage() {
     pin: "",
     payment: "upi",
   });
+  const [errors, setErrors] = useState({});
+  const [orderPlaced, setOrderPlaced] = useState(false);
 
-  if (items.length === 0) {
+  if (!orderPlaced && items.length === 0) {
     return <Navigate to="/cart" replace />;
   }
 
   function handleChange(e) {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    if (errors[e.target.name]) {
+      setErrors((prev) => ({ ...prev, [e.target.name]: "" }));
+    }
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (!form.name || !form.phone || !form.address1 || !form.city || !form.state || !form.pin) {
+    const required = { name: "Full Name", phone: "Phone Number", address1: "Address", city: "City", state: "State", pin: "PIN Code" };
+    const newErrors = {};
+    for (const [field, label] of Object.entries(required)) {
+      if (!form[field].trim()) newErrors[field] = `${label} is required`;
+    }
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
       return;
     }
+    setOrderPlaced(true);
     clearCart();
-    navigate("/");
+  }
+
+  if (orderPlaced) {
+    return (
+      <div className="max-w-lg mx-auto px-4 py-20 text-center">
+        <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-6">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-green-600">
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+        </div>
+        <h1 className="font-serif text-2xl md:text-3xl mb-3">Order Placed Successfully</h1>
+        <p className="text-secondary text-sm leading-relaxed mb-2">
+          Thank you, {form.name}! Your order has been confirmed.
+        </p>
+        <p className="text-secondary text-sm leading-relaxed mb-8">
+          Order #{String(Date.now()).slice(-8)} &middot; A confirmation will be sent to your phone.
+        </p>
+        <Link to="/" className="inline-block bg-primary text-white px-10 py-3.5 text-[11px] uppercase tracking-[0.18em] font-medium hover:bg-primary/85 transition-colors">
+          Continue Shopping
+        </Link>
+      </div>
+    );
   }
 
   return (
@@ -62,24 +98,30 @@ export default function CheckoutPage() {
               Contact Information
             </h2>
             <div className="grid sm:grid-cols-2 gap-4">
-              <input
-                type="text"
-                name="name"
-                placeholder="Full Name"
-                value={form.name}
-                onChange={handleChange}
-                className={inputClass}
-                required
-              />
-              <input
-                type="tel"
-                name="phone"
-                placeholder="Phone Number"
-                value={form.phone}
-                onChange={handleChange}
-                className={inputClass}
-                required
-              />
+              <div>
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Full Name"
+                  aria-label="Full Name"
+                  value={form.name}
+                  onChange={handleChange}
+                  className={`${inputClass} ${errors.name ? "border-red-500" : "border-border"}`}
+                />
+                <InputError message={errors.name} />
+              </div>
+              <div>
+                <input
+                  type="tel"
+                  name="phone"
+                  placeholder="Phone Number"
+                  aria-label="Phone Number"
+                  value={form.phone}
+                  onChange={handleChange}
+                  className={`${inputClass} ${errors.phone ? "border-red-500" : "border-border"}`}
+                />
+                <InputError message={errors.phone} />
+              </div>
             </div>
           </section>
 
@@ -89,55 +131,68 @@ export default function CheckoutPage() {
               Shipping Address
             </h2>
             <div className="space-y-4">
-              <input
-                type="text"
-                name="address1"
-                placeholder="Address Line 1"
-                value={form.address1}
-                onChange={handleChange}
-                className={inputClass}
-                required
-              />
+              <div>
+                <input
+                  type="text"
+                  name="address1"
+                  placeholder="Address Line 1"
+                  aria-label="Address Line 1"
+                  value={form.address1}
+                  onChange={handleChange}
+                  className={`${inputClass} ${errors.address1 ? "border-red-500" : "border-border"}`}
+                />
+                <InputError message={errors.address1} />
+              </div>
               <input
                 type="text"
                 name="address2"
                 placeholder="Address Line 2 (Optional)"
+                aria-label="Address Line 2"
                 value={form.address2}
                 onChange={handleChange}
-                className={inputClass}
+                className={`${inputClass} border-border`}
               />
               <div className="grid sm:grid-cols-3 gap-4">
-                <input
-                  type="text"
-                  name="city"
-                  placeholder="City"
-                  value={form.city}
-                  onChange={handleChange}
-                  className={inputClass}
-                  required
-                />
-                <select
-                  name="state"
-                  value={form.state}
-                  onChange={handleChange}
-                  className={`${inputClass} ${!form.state ? "text-secondary" : ""}`}
-                  required
-                >
-                  <option value="" disabled>State</option>
-                  {STATES.map((s) => (
-                    <option key={s} value={s}>{s}</option>
-                  ))}
-                </select>
-                <input
-                  type="text"
-                  name="pin"
-                  placeholder="PIN Code"
-                  value={form.pin}
-                  onChange={handleChange}
-                  className={inputClass}
-                  maxLength={6}
-                  required
-                />
+                <div>
+                  <input
+                    type="text"
+                    name="city"
+                    placeholder="City"
+                    aria-label="City"
+                    value={form.city}
+                    onChange={handleChange}
+                    className={`${inputClass} ${errors.city ? "border-red-500" : "border-border"}`}
+                  />
+                  <InputError message={errors.city} />
+                </div>
+                <div>
+                  <select
+                    name="state"
+                    aria-label="State"
+                    value={form.state}
+                    onChange={handleChange}
+                    className={`${inputClass} ${errors.state ? "border-red-500" : "border-border"} ${!form.state ? "text-secondary" : ""}`}
+                  >
+                    <option value="" disabled>State</option>
+                    {STATES.map((s) => (
+                      <option key={s} value={s}>{s}</option>
+                    ))}
+                  </select>
+                  <InputError message={errors.state} />
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    name="pin"
+                    placeholder="PIN Code"
+                    aria-label="PIN Code"
+                    value={form.pin}
+                    onChange={handleChange}
+                    className={`${inputClass} ${errors.pin ? "border-red-500" : "border-border"}`}
+                    maxLength={6}
+                  />
+                  <InputError message={errors.pin} />
+                </div>
               </div>
             </div>
           </section>

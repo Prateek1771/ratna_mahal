@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom";
+import { useState, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { commonNavStart, commonNavEnd, womensNav, mensNav } from "../../data/navigation";
 import { useCart } from "../../context/CartContext";
@@ -21,7 +22,19 @@ const springTransition = { type: "spring", stiffness: 500, damping: 40 };
 export default function Header({ gender, onGenderChange }) {
   const { itemCount } = useCart();
   const { itemCount: wishlistCount } = useWishlist();
+  const [searchOpen, setSearchOpen] = useState(false);
+  const searchInputRef = useRef(null);
+  const navigate = useNavigate();
   const visibleNav = [...commonNavStart, ...(gender === "women" ? womensNav : mensNav), ...commonNavEnd];
+
+  function handleSearch(e) {
+    e.preventDefault();
+    const query = searchInputRef.current?.value.trim().toLowerCase().replace(/\s+/g, "-");
+    if (query) {
+      setSearchOpen(false);
+      navigate(`/${query}`);
+    }
+  }
   return (
     <header className="hidden md:block">
       {/* Row 1 — Utility bar */}
@@ -60,30 +73,48 @@ export default function Header({ gender, onGenderChange }) {
           </button>
         </div>
         <div className="flex items-center gap-3">
-          <a href="/stores" className="text-[11px] uppercase tracking-[0.12em] hover:text-primary transition-colors duration-200">
+          <Link to="/" className="text-[11px] uppercase tracking-[0.12em] hover:text-primary transition-colors duration-200">
             Store Locator
-          </a>
+          </Link>
           <span className="text-border text-[10px]">|</span>
-          <a href="/gold-rate" className="text-[11px] uppercase tracking-[0.12em] hover:text-primary transition-colors duration-200">
+          <Link to="/" className="text-[11px] uppercase tracking-[0.12em] hover:text-primary transition-colors duration-200">
             Gold Rate Today
-          </a>
+          </Link>
           <span className="text-border text-[10px]">|</span>
-          <a href="/customer-service" className="text-[11px] uppercase tracking-[0.12em] hover:text-primary transition-colors duration-200">
+          <Link to="/" className="text-[11px] uppercase tracking-[0.12em] hover:text-primary transition-colors duration-200">
             Customer Service
-          </a>
+          </Link>
         </div>
       </div>
 
       {/* Row 2 — Logo & actions */}
       <div className="flex justify-between items-center px-8 py-5">
         {/* Search */}
-        <button className="flex items-center gap-2 text-secondary hover:text-primary transition-colors duration-200 group">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="11" cy="11" r="8" />
-            <line x1="21" y1="21" x2="16.65" y2="16.65" />
-          </svg>
-          <span className="text-[11px] uppercase tracking-[0.12em]">Search</span>
-        </button>
+        <div className="relative">
+          {searchOpen ? (
+            <form onSubmit={handleSearch} className="flex items-center gap-2">
+              <input
+                ref={searchInputRef}
+                autoFocus
+                type="text"
+                placeholder="Search jewellery, designers..."
+                className="border border-border px-3 py-1.5 text-sm w-52 outline-none focus:border-primary transition-colors"
+                aria-label="Search"
+              />
+              <button type="button" onClick={() => setSearchOpen(false)} className="text-secondary hover:text-primary text-xs">
+                Cancel
+              </button>
+            </form>
+          ) : (
+            <button onClick={() => setSearchOpen(true)} className="flex items-center gap-2 text-secondary hover:text-primary transition-colors duration-200 group">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+              <span className="text-[11px] uppercase tracking-[0.12em]">Search</span>
+            </button>
+          )}
+        </div>
 
         {/* Logo */}
         <Link to="/" className="font-serif text-[28px] tracking-[0.04em] text-primary hover:opacity-80 transition-opacity duration-200">

@@ -1,26 +1,36 @@
-import { useEffect, useRef, useCallback } from "react";
+import { useRef, useCallback } from "react";
 
-export default function useScrollReveal() {
-  const observerRef = useRef(null);
+let sharedObserver = null;
 
-  useEffect(() => {
-    observerRef.current = new IntersectionObserver(
+function getObserver() {
+  if (!sharedObserver) {
+    sharedObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add("is-visible");
-            observerRef.current?.unobserve(entry.target);
+            sharedObserver.unobserve(entry.target);
           }
         });
       },
-      { threshold: 0.15, rootMargin: "0px 0px -50px 0px" }
+      { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
     );
+  }
+  return sharedObserver;
+}
 
-    return () => observerRef.current?.disconnect();
-  }, []);
+export default function useScrollReveal() {
+  const nodeRef = useRef(null);
 
   const ref = useCallback((node) => {
-    if (node) observerRef.current?.observe(node);
+    // Unobserve previous node if any
+    if (nodeRef.current) {
+      getObserver().unobserve(nodeRef.current);
+    }
+    nodeRef.current = node;
+    if (node) {
+      getObserver().observe(node);
+    }
   }, []);
 
   return ref;

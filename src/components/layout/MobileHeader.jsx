@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom";
+import { useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { commonNavStart, commonNavEnd, womensNav, mensNav } from "../../data/navigation";
 import { useCart } from "../../context/CartContext";
@@ -7,6 +8,18 @@ import { useWishlist } from "../../context/WishlistContext";
 export default function MobileHeader({ gender, onMenuOpen }) {
   const { itemCount } = useCart();
   const { itemCount: wishlistCount } = useWishlist();
+  const searchRef = useRef(null);
+  const navigate = useNavigate();
+
+  function handleSearch(e) {
+    e.preventDefault();
+    const query = searchRef.current?.value.trim().toLowerCase().replace(/\s+/g, "-");
+    if (query) {
+      searchRef.current.value = "";
+      searchRef.current.blur();
+      navigate(`/${query}`);
+    }
+  }
   const visibleNav = [...commonNavStart, ...(gender === "women" ? womensNav : mensNav), ...commonNavEnd];
   const categoryPills = gender === "women" ? visibleNav.slice(0, 6) : visibleNav;
 
@@ -103,7 +116,7 @@ export default function MobileHeader({ gender, onMenuOpen }) {
       </div>
 
       {/* Row 2 — Search bar */}
-      <div className="mx-4 mb-2 relative">
+      <form onSubmit={handleSearch} className="mx-4 mb-2 relative">
         <svg
           className="absolute left-3 top-1/2 -translate-y-1/2 text-secondary"
           width="16"
@@ -119,11 +132,13 @@ export default function MobileHeader({ gender, onMenuOpen }) {
           <line x1="21" y1="21" x2="16.65" y2="16.65" />
         </svg>
         <input
+          ref={searchRef}
           type="text"
           placeholder="Search jewellery, designers..."
+          aria-label="Search jewellery, designers"
           className="rounded-full bg-bg-light border border-border px-4 py-2 text-sm w-full pl-9 outline-none focus:border-primary transition-colors"
         />
-      </div>
+      </form>
 
       {/* Row 3 — Category pills */}
       <div className="overflow-x-auto px-4 pb-3 scrollbar-hide">

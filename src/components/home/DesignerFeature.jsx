@@ -17,15 +17,17 @@ export default function DesignerFeature() {
     <section className="max-w-[1440px] mx-auto px-4 md:px-8 py-12 md:py-16">
       <SectionHeading title="Recommended Designers" />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <motion.div
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.05 }}
+      >
         {designers.slice(0, 6).map((designer, index) => (
           <motion.div
             key={designer.id}
             variants={cardVariants}
             custom={index}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
           >
             <Link
               to="/designers"
@@ -53,7 +55,7 @@ export default function DesignerFeature() {
             </Link>
           </motion.div>
         ))}
-      </div>
+      </motion.div>
     </section>
   );
 }

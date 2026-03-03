@@ -13,6 +13,11 @@ const cardVariants = {
   }),
 };
 
+const sectionVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.06 } },
+};
+
 export default function CategoryPage() {
   const { slug } = useParams();
   const route = routeConfig[slug];
@@ -91,20 +96,22 @@ export default function CategoryPage() {
       {/* Product grid */}
       <div className="max-w-[1440px] mx-auto px-4 md:px-8 py-6 pb-16">
         {products.length > 0 ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+          <motion.div
+            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6"
+            variants={sectionVariants}
+            initial="hidden"
+            animate="visible"
+          >
             {products.map((product, index) => (
               <motion.div
                 key={product.id}
                 variants={cardVariants}
                 custom={index}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.15 }}
               >
                 <ProductCard product={product} />
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         ) : (
           <div className="text-center py-20 text-secondary">
             <p className="text-lg">No products found in this category yet.</p>

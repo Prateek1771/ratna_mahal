@@ -17,10 +17,12 @@ export default function ProductInfo({ product }) {
   const [selectedSize, setSelectedSize] = useState(null);
   const { isWishlisted, toggleItem } = useWishlist();
   const wishlisted = isWishlisted(product.id);
+  const rawSlug = product.category.toLowerCase().replace(/['']/g, "").replace(/\s+/g, "-");
+  const categorySlug = rawSlug.startsWith("mens-") ? "mens" : rawSlug;
   const breadcrumbItems = [
     { label: "Home", href: "/" },
-    { label: product.category, href: `/${product.category.toLowerCase()}` },
-    { label: product.brand, href: "#" },
+    { label: product.category, href: `/${categorySlug}` },
+    { label: product.brand },
   ];
 
   const emiAmount = Math.round(product.price / 6);

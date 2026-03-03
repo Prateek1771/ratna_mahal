@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import PromoBanner from "./PromoBanner";
 import Header from "./Header";
 import MobileHeader from "./MobileHeader";
@@ -10,12 +10,6 @@ import Footer from "./Footer";
 export default function Layout() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [gender, setGender] = useState("women");
-  const location = useLocation();
-
-  // Scroll to top on route change
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, [location]);
 
   // Prevent body scroll when mobile menu is open
   useEffect(() => {

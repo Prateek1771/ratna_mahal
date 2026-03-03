@@ -1,9 +1,11 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { promos } from "../../data/navigation";
 
 export default function PromoBanner() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
+  const indexRef = useRef(currentIndex);
+  indexRef.current = currentIndex;
 
   const transition = useCallback((newIndex) => {
     setIsAnimating(true);
@@ -14,12 +16,12 @@ export default function PromoBanner() {
   }, []);
 
   const next = useCallback(() => {
-    transition((currentIndex + 1) % promos.length);
-  }, [currentIndex, transition]);
+    transition((indexRef.current + 1) % promos.length);
+  }, [transition]);
 
   const prev = useCallback(() => {
-    transition((currentIndex - 1 + promos.length) % promos.length);
-  }, [currentIndex, transition]);
+    transition((indexRef.current - 1 + promos.length) % promos.length);
+  }, [transition]);
 
   useEffect(() => {
     const interval = setInterval(next, 4000);
