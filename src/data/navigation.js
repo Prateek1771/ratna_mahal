@@ -1,16 +1,12 @@
-export const mainNav = [
-  "DESIGNERS",
-  "NEW",
-  "NECKLACES",
-  "RINGS",
-  "EARRINGS",
-  "BANGLES",
-  "MANGALSUTRA",
-  "BRIDAL",
-  "TEMPLE JEWELLERY",
-  "GIFTS",
-  "SALE"
+export const commonNavStart = ["DESIGNERS", "NEW"];
+export const commonNavEnd = ["WATCHES", "GIFTS", "SALE"];
+export const womensNav = [
+  "NECKLACES", "RINGS", "EARRINGS", "BANGLES", "MANGALSUTRA", "BRIDAL"
 ];
+export const mensNav = ["MENS", "GROOM'S COLLECTION"];
+
+// Full list for backwards compat (mobile menu, etc.)
+export const mainNav = [...commonNavStart, ...womensNav, ...mensNav, ...commonNavEnd];
 
 export const footerLinks = {
   "Customer Service": [

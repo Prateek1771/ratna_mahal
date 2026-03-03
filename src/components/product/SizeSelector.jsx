@@ -1,8 +1,4 @@
-import { useState } from "react";
-
-export default function SizeSelector({ sizes }) {
-  const [selectedSize, setSelectedSize] = useState(null);
-
+export default function SizeSelector({ sizes, selectedSize, onSizeChange }) {
   return (
     <div>
       <div className="flex items-center justify-between">
@@ -18,7 +14,7 @@ export default function SizeSelector({ sizes }) {
         {sizes.map((size) => (
           <button
             key={size}
-            onClick={() => setSelectedSize(size)}
+            onClick={() => onSizeChange(size)}
             className={`border px-4 py-2.5 text-sm transition-all duration-200 min-w-[60px] ${
               selectedSize === size
                 ? "border-primary bg-primary text-white"

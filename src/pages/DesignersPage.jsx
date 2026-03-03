@@ -7,7 +7,7 @@ export default function DesignersPage() {
   return (
     <div>
       {/* Hero banner */}
-      <div className="relative h-[35vh] md:h-[45vh] overflow-hidden">
+      <div className="relative h-[28vh] md:h-[45vh] overflow-hidden">
         <img
           src="https://images.unsplash.com/photo-1760080839074-07e553b0565e?w=1400&q=80"
           alt="Our Designers"
@@ -42,11 +42,11 @@ export default function DesignersPage() {
           <section key={designer.id} className="mb-4">
             {/* Designer feature card */}
             <div className="max-w-[1440px] mx-auto px-4 md:px-8 pt-8">
-              <div className="relative h-64 md:h-80 overflow-hidden group">
+              <div className="relative h-48 md:h-80 overflow-hidden group">
                 <img
                   src={designer.image}
                   alt={designer.name}
-                  className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
                 <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white">

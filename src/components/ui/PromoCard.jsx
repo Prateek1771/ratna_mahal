@@ -1,3 +1,9 @@
+import { motion } from "motion/react";
+
+const cardHover = { y: -4, transition: { type: "spring", stiffness: 400, damping: 25 } };
+const cardTap = { scale: 0.98 };
+const cardTransition = { type: "spring", stiffness: 400, damping: 30 };
+
 export default function PromoCard({
   title,
   subtitle,
@@ -5,7 +11,12 @@ export default function PromoCard({
   bgColor = "bg-bg-cream",
 }) {
   return (
-    <div className={`${bgColor} p-8 md:p-10 border border-border/50 group cursor-pointer hover:border-border transition-colors duration-300`}>
+    <motion.div
+      whileHover={cardHover}
+      whileTap={cardTap}
+      transition={cardTransition}
+      className={`${bgColor} p-8 md:p-10 border border-border/50 group cursor-pointer hover:border-border transition-colors duration-300`}
+    >
       <h3 className="font-serif text-xl md:text-2xl">{title}</h3>
       {subtitle && <p className="text-secondary text-sm mt-2 leading-relaxed">{subtitle}</p>}
       {ctaText && (
@@ -13,6 +24,6 @@ export default function PromoCard({
           {ctaText}
         </span>
       )}
-    </div>
+    </motion.div>
   );
 }

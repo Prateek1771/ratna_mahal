@@ -37,7 +37,13 @@ export default function MobileImageGallery({ images }) {
           <button
             key={index}
             aria-label={`Go to image ${index + 1}`}
-            className={`w-2 h-2 rounded-full transition-colors ${
+            onClick={() => {
+              const container = scrollRef.current;
+              if (container) {
+                container.scrollTo({ left: index * container.offsetWidth, behavior: "smooth" });
+              }
+            }}
+            className={`w-2.5 h-2.5 rounded-full transition-colors p-2 bg-clip-content ${
               index === activeIndex ? "bg-primary" : "bg-border"
             }`}
           />

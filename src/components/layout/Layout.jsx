@@ -9,6 +9,7 @@ import Footer from "./Footer";
 
 export default function Layout() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [gender, setGender] = useState("women");
   const location = useLocation();
 
   // Scroll to top on route change
@@ -31,11 +32,13 @@ export default function Layout() {
   return (
     <div className="min-h-screen flex flex-col">
       <PromoBanner />
-      <Header />
-      <MobileHeader onMenuOpen={() => setIsMobileMenuOpen(true)} />
+      <Header gender={gender} onGenderChange={setGender} />
+      <MobileHeader gender={gender} onMenuOpen={() => setIsMobileMenuOpen(true)} />
       <MobileMenu
         isOpen={isMobileMenuOpen}
         onClose={() => setIsMobileMenuOpen(false)}
+        gender={gender}
+        onGenderChange={setGender}
       />
 
       <main className="flex-1">

@@ -29,7 +29,7 @@ export default function GiftsPage() {
   return (
     <div>
       {/* Hero banner */}
-      <div className="relative h-[35vh] md:h-[45vh] overflow-hidden">
+      <div className="relative h-[28vh] md:h-[45vh] overflow-hidden">
         <img
           src="https://images.unsplash.com/photo-1759906766380-7a5849e6fb13?w=1400&q=80"
           alt="Gift Guide"

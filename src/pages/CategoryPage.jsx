@@ -1,13 +1,21 @@
 import { useParams, Link } from "react-router-dom";
+import { motion } from "motion/react";
 import routeConfig from "../data/routes";
 import ProductCard from "../components/ui/ProductCard";
 import Breadcrumb from "../components/product/Breadcrumb";
-import useScrollReveal from "../hooks/useScrollReveal";
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: (i) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: i * 0.06, duration: 0.35, ease: "easeOut" },
+  }),
+};
 
 export default function CategoryPage() {
   const { slug } = useParams();
   const route = routeConfig[slug];
-  const reveal = useScrollReveal();
 
   if (!route) {
     return (
@@ -33,7 +41,7 @@ export default function CategoryPage() {
   return (
     <div>
       {/* Hero banner */}
-      <div className="relative h-[35vh] md:h-[45vh] overflow-hidden">
+      <div className="relative h-[28vh] md:h-[45vh] overflow-hidden">
         <img
           src={route.heroImage}
           alt={route.title}
@@ -63,18 +71,38 @@ export default function CategoryPage() {
         </span>
       </div>
 
+      {/* Sub-category chips for umbrella pages */}
+      {route.subCategories && (
+        <div className="max-w-[1440px] mx-auto px-4 md:px-8">
+          <div className="flex flex-wrap gap-2 mt-4">
+            {route.subCategories.map(sub => (
+              <Link
+                key={sub.slug}
+                to={`/${sub.slug}`}
+                className="text-xs uppercase tracking-wider border border-primary/30 px-4 py-2 hover:bg-primary hover:text-white transition-colors"
+              >
+                {sub.name}
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Product grid */}
       <div className="max-w-[1440px] mx-auto px-4 md:px-8 py-6 pb-16">
         {products.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
             {products.map((product, index) => (
-              <div
+              <motion.div
                 key={product.id}
-                ref={reveal}
-                className={`animate-on-scroll stagger-${Math.min(index + 1, 6)}`}
+                variants={cardVariants}
+                custom={index}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.15 }}
               >
                 <ProductCard product={product} />
-              </div>
+              </motion.div>
             ))}
           </div>
         ) : (

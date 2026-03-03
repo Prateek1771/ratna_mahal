@@ -24,7 +24,12 @@
       "Bash(grep:*)",
       "WebSearch",
       "WebFetch(domain:unsplash.com)",
-      "Bash(bash:*)"
+      "Bash(bash:*)",
+      "WebFetch(domain:www.vummidi.com)",
+      "WebFetch(domain:www.kalkifashion.com)",
+      "WebFetch(domain:blog.kalkifashion.com)",
+      "WebFetch(domain:www.pngjewellers.com)",
+      "Bash(sed:*)"
     ]
   }
 }

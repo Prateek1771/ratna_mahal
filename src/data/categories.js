@@ -34,6 +34,42 @@ const categories = [
     name: "Mangalsutra",
     image: "https://images.unsplash.com/photo-1514178703120-3fa66528901d?w=600&q=80",
     slug: "mangalsutra"
+  },
+  {
+    id: 7,
+    name: "Watches",
+    image: "https://images.unsplash.com/photo-1766518303334-aaa928ceed45?w=600&q=80",
+    slug: "watches"
+  },
+  {
+    id: 8,
+    name: "Nose Pins & Naths",
+    image: "https://images.unsplash.com/photo-1763017707624-213684457a9d?w=600&q=80",
+    slug: "nose-pins"
+  },
+  {
+    id: 9,
+    name: "Maang Tikka",
+    image: "https://images.unsplash.com/photo-1760461805697-7aff3e93c5d9?w=600&q=80",
+    slug: "maang-tikka"
+  },
+  {
+    id: 10,
+    name: "Bridal Accessories",
+    image: "https://images.unsplash.com/photo-1760080839060-591149703647?w=600&q=80",
+    slug: "bridal-accessories"
+  },
+  {
+    id: 11,
+    name: "Groom's Collection",
+    image: "https://images.unsplash.com/photo-1762505464962-4c7b93dcc8d4?w=600&q=80",
+    slug: "grooms-collection"
+  },
+  {
+    id: 12,
+    name: "Hathphool",
+    image: "https://images.unsplash.com/photo-1745236549746-199022db5b80?w=600&q=80",
+    slug: "hathphool"
   }
 ];
 

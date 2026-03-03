@@ -1,6 +1,6 @@
 export default function HeroSection() {
   return (
-    <section className="relative w-full h-[65vh] md:h-[80vh] overflow-hidden">
+    <section className="relative w-full h-[50vh] md:h-[80vh] overflow-hidden">
       <img
         src="https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?w=1600&q=80"
         alt="Indian bridal jewellery collection"
